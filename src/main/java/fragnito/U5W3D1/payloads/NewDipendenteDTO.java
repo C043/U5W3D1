@@ -16,6 +16,9 @@ public record NewDipendenteDTO(
         String cognome,
         @NotNull(message = "L'email è obbligatoria")
         @Email(message = "L'email inserita non è un indirizzo valido")
-        String email
+        String email,
+        @NotNull(message = "La password è obbligatoria")
+        @Size(min = 5, message = "La password deve essere di minimo 5 caratteri")
+        String password
 ) {
 }

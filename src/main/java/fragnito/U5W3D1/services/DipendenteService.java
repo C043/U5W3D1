@@ -24,7 +24,7 @@ public class DipendenteService {
 
     public Dipendente saveDipendente(NewDipendenteDTO body) {
         if (this.dipendenteRepository.existsByEmail(body.email())) throw new BadRequestException("Esiste già un utente con questa email.");
-        Dipendente newDipendente = new Dipendente(body.username(), body.nome(), body.cognome(), body.email());
+        Dipendente newDipendente = new Dipendente(body.username(), body.nome(), body.cognome(), body.email(), body.password());
         newDipendente.setAvatar("https://ui-avatars.com/api/?name=" + newDipendente.getNome() + "+" + newDipendente.getCognome());
         this.dipendenteRepository.save(newDipendente);
         return newDipendente;
