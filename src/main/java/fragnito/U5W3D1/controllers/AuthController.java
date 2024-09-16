@@ -1,21 +1,40 @@
 package fragnito.U5W3D1.controllers;
 
+import fragnito.U5W3D1.entities.Dipendente;
+import fragnito.U5W3D1.exceptions.Validation;
 import fragnito.U5W3D1.payloads.AuthDTO;
-import fragnito.U5W3D1.repositories.DipendenteRepository;
+import fragnito.U5W3D1.payloads.NewDipendenteDTO;
+import fragnito.U5W3D1.payloads.RespDTO;
+import fragnito.U5W3D1.services.AuthService;
+import fragnito.U5W3D1.services.DipendenteService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
     @Autowired
-    private DipendenteRepository dipendenteRepository;
+    private AuthService authService;
+
+    @Autowired
+    private DipendenteService dipendenteService;
+
+    @Autowired
+    private Validation validation;
 
     @PostMapping("/login")
     public String login(@RequestBody AuthDTO body) {
-        return "Token";
+        return this.authService.generateToken(body);
+    }
+
+    @PostMapping("/register")
+    @ResponseStatus(HttpStatus.CREATED)
+    public RespDTO postDipendente(@RequestBody @Validated NewDipendenteDTO body, BindingResult validation) {
+        this.validation.validate(validation);
+        Dipendente dipendente = this.dipendenteService.saveDipendente(body);
+        return new RespDTO(dipendente.getId());
     }
 }

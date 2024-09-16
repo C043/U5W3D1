@@ -24,14 +24,6 @@ public class DipendenteController {
     @Autowired
     private Validation validation;
 
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public RespDTO postDipendente(@RequestBody @Validated NewDipendenteDTO body, BindingResult validation) {
-        this.validation.validate(validation);
-        Dipendente dipendente = this.dipendenteService.saveDipendente(body);
-        return new RespDTO(dipendente.getId());
-    }
-
     @GetMapping
     public List<Dipendente> getAllDipendenti() {
         return this.dipendenteService.getAllDipendenti();
