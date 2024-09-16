@@ -59,4 +59,10 @@ public class DipendenteService {
         found.setAvatar(url);
         this.dipendenteRepository.save(found);
     }
+
+    public Dipendente findByEmail(String email) {
+        Dipendente found = this.dipendenteRepository.findByEmail(email);
+        if (found == null) throw new NotFoundException("Nessun dipendente con quella email");
+        return found;
+    }
 }
